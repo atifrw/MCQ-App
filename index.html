@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📘 सुंदर MCQ Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 20px; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.1); }
+    h2 { text-align: center; color: #333; }
+    select, button { padding: 10px; font-size: 16px; margin-bottom: 20px; width: 100%; border-radius: 8px; border: 1px solid #ccc; }
+    .card { background: #e8f0fe; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+    .option-btn { display: block; background: #fff; border: 2px solid #007bff; color: #007bff; padding: 10px; margin: 10px 0; border-radius: 8px; cursor: pointer; }
+    .option-btn:hover { background: #007bff; color: white; }
+    .result { font-weight: bold; font-size: 18px; margin-top: 10px; }
+    #nextBtn { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🧠 MCQ Quiz Practice</h2>
+    <select id="chapterSelect">
+      <option value="">-- अध्याय चुनें (या All Chapters) --</option>
+    </select>
+    <button onclick="startQuiz()">🎯 शुरू करें</button>
+    <div id="quizArea" style="display:none;">
+      <div id="questionBox" class="card"></div>
+      <div id="optionsBox"></div>
+      <div id="resultBox" class="result"></div>
+      <button id="nextBtn" onclick="showNext()">➡️ अगला सवाल</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
