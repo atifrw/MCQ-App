@@ -2,7 +2,7 @@ let data = {};
 let currentQuestions = [];
 let currentIndex = 0;
 let correctCount = 0;
-let wrongCount = 0;
+let incorrectCount = 0;
 let wrongQuestions = [];
 
 fetch("mcqs.json")
@@ -10,7 +10,7 @@ fetch("mcqs.json")
   .then(json => {
     data = json;
     const chapterSelect = document.getElementById("chapterSelect");
-    chapterSelect.innerHTML += "<option value='__all__'>सभी अध्याय</option>";
+    chapterSelect.innerHTML += "<option value='__all__'>рд╕рднреА рдЕрдзреНрдпрд╛рдп</option>";
     Object.keys(data).forEach(ch => {
       const opt = document.createElement("option");
       opt.value = ch;
@@ -22,6 +22,9 @@ fetch("mcqs.json")
 function startQuiz() {
   const chapter = document.getElementById("chapterSelect").value;
   currentQuestions = [];
+  correctCount = 0;
+  incorrectCount = 0;
+  wrongQuestions = [];
 
   if (chapter === "__all__") {
     Object.values(data).forEach(arr => currentQuestions.push(...arr));
@@ -31,11 +34,7 @@ function startQuiz() {
 
   shuffle(currentQuestions);
   currentIndex = 0;
-  correctCount = 0;
-  wrongCount = 0;
-  wrongQuestions = [];
   document.getElementById("quizArea").style.display = "block";
-  document.getElementById("summaryBox").innerHTML = "";
   showQuestion();
 }
 
@@ -51,29 +50,27 @@ function showQuestion() {
     const btn = document.createElement("button");
     btn.className = "option-btn";
     btn.textContent = opt;
-    btn.onclick = () => {
-      const isCorrect = opt === q.answer;
-      btn.classList.add(isCorrect ? "correct" : "incorrect");
-      if (!isCorrect) {
-        wrongQuestions.push(q);
-        wrongCount++;
-        [...box.children].forEach(b => {
-          if (b.textContent === q.answer) b.classList.add("correct");
-        });
-      } else {
-        correctCount++;
-      }
-      disableButtons(box);
-      document.getElementById("resultBox").innerText =
-        isCorrect ? "✅ सही उत्तर!" : `❌ गलत! सही उत्तर: ${q.answer}`;
-      document.getElementById("nextBtn").style.display = "block";
-    };
+    btn.onclick = () => handleAnswer(opt, q.answer, btn);
     box.appendChild(btn);
   });
 }
 
-function disableButtons(box) {
-  [...box.children].forEach(b => (b.disabled = true));
+function handleAnswer(selected, correct, btn) {
+  const buttons = document.querySelectorAll(".option-btn");
+  buttons.forEach(b => b.disabled = true);
+
+  if (selected === correct) {
+    btn.classList.add("correct");
+    document.getElementById("resultBox").innerText = "тЬЕ рд╕рд╣реА рдЙрддреНрддрд░!";
+    correctCount++;
+  } else {
+    btn.classList.add("incorrect");
+    document.getElementById("resultBox").innerText = `тЭМ рдЧрд▓рдд! рд╕рд╣реА рдЙрддреНрддрд░: ${correct}`;
+    incorrectCount++;
+    wrongQuestions.push(currentQuestions[currentIndex]);
+  }
+
+  document.getElementById("nextBtn").style.display = "block";
 }
 
 function showNext() {
@@ -81,32 +78,31 @@ function showNext() {
   if (currentIndex < currentQuestions.length) {
     showQuestion();
   } else {
-    showSummary();
+    showFinalScore();
   }
 }
 
-function showSummary() {
-  document.getElementById("quizArea").style.display = "none";
-  let summary = `<h3>📊 Quiz Summary</h3>`;
-  summary += `<p>✅ सही उत्तर: ${correctCount}</p>`;
-  summary += `<p>❌ गलत उत्तर: ${wrongCount}</p>`;
+function showFinalScore() {
+  const total = correctCount + incorrectCount;
+  document.getElementById("questionBox").innerHTML = `ЁЯОЙ Quiz рдЦрддреНрдо!\n\n рдХреБрд▓ рдкреНрд░рд╢реНрди: ${total}\nтЬЕ рд╕рд╣реА: ${correctCount}\nтЭМ рдЧрд▓рдд: ${incorrectCount}`;
+  document.getElementById("optionsBox").innerHTML = "";
+  document.getElementById("resultBox").innerText = "";
+  document.getElementById("nextBtn").style.display = "none";
 
   if (wrongQuestions.length > 0) {
-    summary += `<button onclick="retryWrong()">🔁 गलत सवालों को फिर से हल करें</button>`;
+    const retryBtn = document.createElement("button");
+    retryBtn.className = "option-btn";
+    retryBtn.textContent = "ЁЯФБ рдЧрд▓рдд рд╕рд╡рд╛рд▓ рдлрд┐рд░ рд╕реЗ рдХрд░реЗрдВ";
+    retryBtn.onclick = () => {
+      currentQuestions = [...wrongQuestions];
+      currentIndex = 0;
+      correctCount = 0;
+      incorrectCount = 0;
+      wrongQuestions = [];
+      showQuestion();
+    };
+    document.getElementById("optionsBox").appendChild(retryBtn);
   }
-
-  document.getElementById("summaryBox").innerHTML = summary;
-}
-
-function retryWrong() {
-  currentQuestions = [...wrongQuestions];
-  currentIndex = 0;
-  correctCount = 0;
-  wrongCount = 0;
-  wrongQuestions = [];
-  document.getElementById("quizArea").style.display = "block";
-  document.getElementById("summaryBox").innerHTML = "";
-  showQuestion();
 }
 
 function shuffle(array) {
