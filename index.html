@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔥 Premium MCQ Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: linear-gradient(to right, #dbe6f6, #c5796d);
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      font-size: 28px;
+    }
+    select, button {
+      padding: 12px;
+      font-size: 18px;
+      margin-bottom: 25px;
+      width: 100%;
+      border-radius: 10px;
+      border: none;
+      background-color: #f1f1f1;
+    }
+    .question-card {
+      background: #fefefe;
+      border-left: 6px solid #4e54c8;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .option-btn {
+      display: block;
+      background: #ffffff;
+      border: 2px solid #4e54c8;
+      color: #4e54c8;
+      font-weight: 600;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .option-btn:hover {
+      background: #4e54c8;
+      color: white;
+    }
+    .correct {
+      background-color: #28a745;
+      color: white;
+      border-color: #28a745;
+    }
+    .incorrect {
+      background-color: #dc3545;
+      color: white;
+      border-color: #dc3545;
+    }
+    .result {
+      font-weight: bold;
+      font-size: 20px;
+      margin-top: 15px;
+      color: #000;
+    }
+    #nextBtn {
+      display: none;
+      background: #28a745;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🔥 Premium Quiz App</h2>
+    <select id="chapterSelect">
+      <option value="">-- अध्याय चुनें या All Chapters --</option>
+    </select>
+    <button onclick="startQuiz()">🎯 शुरू करें</button>
+    <div id="quizArea" style="display:none;">
+      <div id="questionBox" class="question-card"></div>
+      <div id="optionsBox"></div>
+      <div id="resultBox" class="result"></div>
+      <button id="nextBtn" class="option-btn" onclick="showNext()">➡️ अगला सवाल</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
