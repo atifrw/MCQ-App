@@ -10,7 +10,7 @@ fetch("mcqs.json")
   .then(json => {
     data = json;
     const chapterSelect = document.getElementById("chapterSelect");
-    chapterSelect.innerHTML += "<option value='__all__'>рд╕рднреА рдЕрдзреНрдпрд╛рдп</option>";
+    chapterSelect.innerHTML += "<option value='__all__'>सभी अध्याय</option>";
     Object.keys(data).forEach(ch => {
       const opt = document.createElement("option");
       opt.value = ch;
@@ -61,11 +61,11 @@ function handleAnswer(selected, correct, btn) {
 
   if (selected === correct) {
     btn.classList.add("correct");
-    document.getElementById("resultBox").innerText = "тЬЕ рд╕рд╣реА рдЙрддреНрддрд░!";
+    document.getElementById("resultBox").innerText = "✅ सही उत्तर!";
     correctCount++;
   } else {
     btn.classList.add("incorrect");
-    document.getElementById("resultBox").innerText = `тЭМ рдЧрд▓рдд! рд╕рд╣реА рдЙрддреНрддрд░: ${correct}`;
+    document.getElementById("resultBox").innerText = `❌ गलत! सही उत्तर: ${correct}`;
     incorrectCount++;
     wrongQuestions.push(currentQuestions[currentIndex]);
   }
@@ -84,7 +84,7 @@ function showNext() {
 
 function showFinalScore() {
   const total = correctCount + incorrectCount;
-  document.getElementById("questionBox").innerHTML = `ЁЯОЙ Quiz рдЦрддреНрдо!\n\n рдХреБрд▓ рдкреНрд░рд╢реНрди: ${total}\nтЬЕ рд╕рд╣реА: ${correctCount}\nтЭМ рдЧрд▓рдд: ${incorrectCount}`;
+  document.getElementById("questionBox").innerHTML = `🎉 Quiz खत्म!\n\n कुल प्रश्न: ${total}\n✅ सही: ${correctCount}\n❌ गलत: ${incorrectCount}`;
   document.getElementById("optionsBox").innerHTML = "";
   document.getElementById("resultBox").innerText = "";
   document.getElementById("nextBtn").style.display = "none";
@@ -92,7 +92,7 @@ function showFinalScore() {
   if (wrongQuestions.length > 0) {
     const retryBtn = document.createElement("button");
     retryBtn.className = "option-btn";
-    retryBtn.textContent = "ЁЯФБ рдЧрд▓рдд рд╕рд╡рд╛рд▓ рдлрд┐рд░ рд╕реЗ рдХрд░реЗрдВ";
+    retryBtn.textContent = "🔁 गलत सवाल फिर से करें";
     retryBtn.onclick = () => {
       currentQuestions = [...wrongQuestions];
       currentIndex = 0;
